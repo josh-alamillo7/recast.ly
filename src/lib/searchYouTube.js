@@ -17,4 +17,21 @@ var searchYouTube = (options, callback) => {
   });
 };
 
+var getVideoInformation = (videoId, callback) => {
+  $.ajax({
+    url: 'https://www.googleapis.com/youtube/v3/videos/',
+    data: {
+      id: videoId,
+      key: window.YOUTUBE_API_KEY,
+      part: 'snippet,contentDetails,statistics'
+    },
+    success: function(results) {
+      callback(results.items[0]);
+    },
+  });
+    
+};
+
+
 window.searchYouTube = searchYouTube;
+window.getVideoInformation = getVideoInformation;

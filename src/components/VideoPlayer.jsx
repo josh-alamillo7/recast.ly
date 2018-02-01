@@ -7,6 +7,7 @@ var VideoPlayer = (props) => (
       <h3>{props.video.snippet.title}</h3>
       <div>{props.video.snippet.description}</div>
     </div>
+    <VideoDetails video={props.video} handleVideoDetailsClick={props.handleVideoDetailsClick}/>
   </div>
 );
 
@@ -14,6 +15,7 @@ var VideoPlayer = (props) => (
 // Warnings will be shown in the console when the defined rules are violated
 VideoPlayer.propTypes = {
   video: React.PropTypes.object.isRequired
+  
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope

@@ -14,10 +14,23 @@ class App extends React.Component {
         }
       },
       videoList: [],
+      videoDetails: {
+        snippet: {
+          publishedAt: ''
+        },
+        statistics: {
+          commentCount: '',
+          dislikeCount: '',
+          favoriteCount: '',
+          viewCount: ''
+          
+        }
+      }
     };
     
     this.handleClick = this.handleClick.bind(this);
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
+    this.handleVideoDetailsClick = this.handleVideoDetailsClick.bind(this);
   }
   
   componentDidMount() {
@@ -29,7 +42,7 @@ class App extends React.Component {
       maxResults: 5
     }, (function(data) {
       this.setState({
-        currentVideo: data[0],
+        currentVideo: data[2],
         videoList: data
       });
     }).bind(this));
@@ -56,6 +69,22 @@ class App extends React.Component {
       currentVideo: video
     });
   }
+  
+  handleVideoDetailsClick() {
+    console.log('working');
+    
+
+    this.props.getVideoInformation(this.state.currentVideo.id.videoId, (function(data) {
+      // console.log(this.state.currentVideo.id.videoId);      
+      this.setState({
+        videoDetails: data
+      });
+      
+      
+    }).bind(this));
+    
+    console.log(this.state.videoDetails);
+  }
    
   render() {
   
@@ -68,7 +97,7 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.currentVideo}  />
+            <VideoPlayer video={this.state.currentVideo} handleVideoDetailsClick={this.handleVideoDetailsClick} />
           </div>
           <VideoList videos={this.state.videoList} handleClick = {this.handleClick}/>
         </div>
