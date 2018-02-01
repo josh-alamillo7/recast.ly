@@ -1,18 +1,57 @@
 class App extends React.Component {
   
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     
     this.state = {
-      currentVideo: window.exampleVideoData[0],
-      videoList: window.exampleVideoData,
+      currentVideo: {
+        id: {
+          videoId: ''
+        },
+        snippet: {
+          title: '', 
+          description: ''
+        }
+      },
+      videoList: [],
     };
     
     this.handleClick = this.handleClick.bind(this);
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
+  }
+  
+  componentDidMount() {
+    // console.log(this.props);
+    // do a youtube search here
+    this.props.searchYouTube({
+      key: window.YOUTUBE_API_KEY,
+      query: 'tiny pandas',
+      maxResults: 5
+    }, (function(data) {
+      this.setState({
+        currentVideo: data[0],
+        videoList: data
+      });
+    }).bind(this));
+    
+    // populate the VideoList with a default search
+  }
+  
+  handleOnKeyUp(event) {
+    // console.log('handleOnKeyUp', searchTerm.target.value);
+    this.props.searchYouTube({
+      key: window.YOUTUBE_API_KEY,
+      query: event.target.value,
+      maxResults: 5
+    }, (function(data) {
+      this.setState({
+        currentVideo: data[0],
+        videoList: data
+      });
+    }).bind(this));
   }
   
   handleClick(video) {
-    // console.log(arguments);
     this.setState({
       currentVideo: video
     });
@@ -24,7 +63,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search handleOnKeyUp={this.handleOnKeyUp} />
           </div>
         </nav>
         <div className="row">
