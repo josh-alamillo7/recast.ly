@@ -1,2 +1,2 @@
-ReactDOM.render(<App searchYouTube={searchYouTube} />, document.getElementById('app'));
+ReactDOM.render(<App searchYouTube={_.throttle(searchYouTube, 500)} />, document.getElementById('app'));
 
