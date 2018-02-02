@@ -21,7 +21,7 @@ class App extends React.Component {
         statistics: {
           commentCount: '',
           dislikeCount: '',
-          favoriteCount: '',
+          likeCount: '',
           viewCount: ''
           
         }
@@ -32,6 +32,8 @@ class App extends React.Component {
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
     this.handleVideoDetailsClick = this.handleVideoDetailsClick.bind(this);
   }
+  
+  
   
   componentDidMount() {
     // console.log(this.props);
@@ -45,10 +47,17 @@ class App extends React.Component {
         currentVideo: data[2],
         videoList: data
       });
+      this.handleVideoDetailsClick();
     }).bind(this));
-    
+
     // populate the VideoList with a default search
   }
+  
+  /*
+  componentDidUpdate() {
+    this.handleVideoDetailsClick();
+  }
+  */
   
   handleOnKeyUp(event) {
     // console.log('handleOnKeyUp', searchTerm.target.value);
@@ -62,29 +71,33 @@ class App extends React.Component {
         videoList: data
       });
     }).bind(this));
+
   }
   
   handleClick(video) {
+    
     this.setState({
       currentVideo: video
     });
+    
   }
   
   handleVideoDetailsClick() {
     console.log('working');
     
 
-    this.props.getVideoInformation(this.state.currentVideo.id.videoId, (function(data) {
-      // console.log(this.state.currentVideo.id.videoId);      
+    this.props.getVideoInformation(this.state.currentVideo.id.videoId, (function(data) { 
+      // console.log(this)    
       this.setState({
         videoDetails: data
       });
       
       
     }).bind(this));
-    
-    console.log(this.state.videoDetails);
+
   }
+  
+  
    
   render() {
   
@@ -97,7 +110,7 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.currentVideo} handleVideoDetailsClick={this.handleVideoDetailsClick} />
+            <VideoPlayer video={this.state.currentVideo} videoDetails={this.state.videoDetails} handleVideoDetailsClick={this.handleVideoDetailsClick} />
           </div>
           <VideoList videos={this.state.videoList} handleClick = {this.handleClick}/>
         </div>

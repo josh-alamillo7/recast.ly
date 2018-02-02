@@ -1,6 +1,9 @@
 var VideoDetails = (props) => (
   <div className="video-details" onClick={() => props.handleVideoDetailsClick()}>
-    VideoDetails here!
+    {'Comments: ' + Number(props.videoDetails.statistics.commentCount).toLocaleString() + ' '}
+    {'Likes: ' + Number(props.videoDetails.statistics.likeCount).toLocaleString() + ' '}
+    {'Dislikes: ' + Number(props.videoDetails.statistics.dislikeCount).toLocaleString() + ' '}
+    {'Views: ' + Number(props.videoDetails.statistics.viewCount).toLocaleString()}
   </div>
 );
 
